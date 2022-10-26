@@ -24,34 +24,34 @@ def interpret(code: str):
 		if code[cp] == "":
 			cp += 1
 			continue
-		elif code[cp] == " ":
+		if code[cp] == " ":
 			cp += 1
 			continue
-		elif code[cp] == "+":
+		if code[cp] == "+":
 			tape[p] += 1
-		elif code[cp] == "-":
+		if code[cp] == "-":
 			if tape[p] == 0:
 				tape[p] = 255
 			tape[p] -= 1
-		elif code[cp] == ">":
+		if code[cp] == ">":
 			if p == l-1:
 				tape.append(0)
 				l += 1
 			p += 1
-		elif code[cp] == "<":
+		if code[cp] == "<":
 			if p == 0:
 				raise Exception("trying to go before tape start")
 			p -= 1
-		elif code[cp] == "[":
+		if code[cp] == "[":
 			if tape[p] == 0:
 				cp = m[cp]
 				continue
-		elif code[cp] == ".":
+		if code[cp] == ".":
 			output += chr(tape[p])
-		elif code[cp] == ",":
+		if code[cp] == ",":
 			i = input("> ")
 			tape[p] = ord(i)
-		elif code[cp] == "]":
+		if code[cp] == "]":
 			if tape[p] != 0:
 				keys = [k for k, v in m.items() if v == cp]
 				cp = keys[0]

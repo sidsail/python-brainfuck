@@ -38,7 +38,6 @@ def interpret(code: str):
 			if tape[p] == 0:
 				c = 1
 				for i, v in enumerate(code[cp+1:]):
-					print(code[:cp])
 					if v == "[":
 						c += 1
 					if v == "]":

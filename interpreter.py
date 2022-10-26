@@ -11,10 +11,14 @@ def interpret(code: str):
 			cp += 1
 			continue
 		if code[cp] == "+":
+			if tape[p] == 255:
+				tape[p] = 0
+				continue
 			tape[p] += 1
 		if code[cp] == "-":
 			if tape[p] == 0:
 				tape[p] = 255
+				continue
 			tape[p] -= 1
 		if code[cp] == ">":
 			if p == l-1:

@@ -10,21 +10,25 @@ def interpret(code: str):
 		if code[cp] == " ":
 			cp += 1
 			continue
+
 		if code[cp] == "+":
 			if tape[p] == 255:
 				tape[p] = 0
 				continue
 			tape[p] += 1
+
 		if code[cp] == "-":
 			if tape[p] == 0:
 				tape[p] = 255
 				continue
 			tape[p] -= 1
+
 		if code[cp] == ">":
 			if p == l-1:
 				tape.append(0)
 				l += 1
 			p += 1
+
 		if code[cp] == "<":
 			if p == 0:
 				raise Exception("trying to go before tape start")
@@ -33,7 +37,8 @@ def interpret(code: str):
 		if code[cp] == "[":
 			if tape[p] == 0:
 				c = 1
-				for i, v in enumerate(code[:cp]):
+				for i, v in enumerate(code[cp+1:]):
+					print(code[:cp])
 					if v == "[":
 						c += 1
 					if v == "]":
@@ -45,6 +50,7 @@ def interpret(code: str):
 					raise Exception("mismatched braces")
 			else:
 				stack.append(cp)
+
 		if code[cp] == "]":
 			if tape[p] != 0:
 				cp = stack.pop()
@@ -52,9 +58,11 @@ def interpret(code: str):
 		
 		if code[cp] == ".":
 			output += chr(tape[p])
+
 		if code[cp] == ",":
 			i = input("> ")
 			tape[p] = ord(i)
+
 		cp += 1	
-	print(tape)
+
 	return output

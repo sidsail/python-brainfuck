@@ -36,17 +36,19 @@ def interpret(code: str):
 		
 		if code[cp] == "[":
 			if tape[p] == 0:
-				c = 1
-				for i, v in enumerate(code[cp+1:]):
+				c = 0
+				for i, v in enumerate(code[cp:]):
 					if v == "[":
 						c += 1
 					if v == "]":
 						c -= 1
 					if c == 0:
-						cp = i
-						continue
+						cp = cp + i
+						break
 				else:
 					raise Exception("mismatched braces")
+
+				continue
 			else:
 				stack.append(cp)
 
@@ -54,7 +56,6 @@ def interpret(code: str):
 			if tape[p] != 0:
 				cp = stack.pop()
 				continue
-		
 		if code[cp] == ".":
 			output += chr(tape[p])
 

@@ -1,67 +1,55 @@
-import time 
-
-
+from distutils.dir_util import copy_tree
+import sys
 def interpret(code: str):
+	m = {}
+	arr = []
+	for i, v in enumerate(code):
+		if v == "[":
+			arr.append(i)
+		if v == "]":
+			x = arr.pop()
+			m[x] = i
+			m[i] = x
+	if len(arr) != 0:
+		raise Exception("mismatched braces")
+
 	tape = [0]
 	p = 0
 	cp = 0
 	l = len(tape)
 	lc = len(code)
-	output = ""
-	stack = []
 	while cp < lc:
-		if code[cp] == "+":
+		token = code[cp]
+		if token == "+":
 			if tape[p] == 255:
 				tape[p] = 0
-				cp+=1
+				cp += 1
 				continue
 			tape[p] += 1
-
-		if code[cp] == "-":
+		if token == "-":
 			if tape[p] == 0:
 				tape[p] = 255
 				cp += 1
 				continue
 			tape[p] -= 1
-
-		if code[cp] == ">":
+		if token == ">":
 			if p == l-1:
 				tape.append(0)
 				l += 1
 			p += 1
-
-		if code[cp] == "<":
-			if p == 0:
-				raise Exception("trying to go before tape start")
-			p -= 1
-		
-		if code[cp] == "[":
+		if token == "<":
+			if p != 0:
+				p -= 1
+		if token == "[":
 			if tape[p] == 0:
-				c = 0
-				for i, v in enumerate(code[cp:]):
-					if v == "[":
-						c += 1
-					if v == "]":
-						c -= 1
-					if c == 0:
-						cp = cp + i
-						break
-				else:
-					raise Exception("mismatched braces")
-
+				cp = m[cp]
 				continue
-			else:
-				stack.append(cp)
-
-		if code[cp] == "]":
+		if token == ".":
+			sys.stdout.write(chr(tape[p]))
+		if token == ",":
+			tape[p] = ord(sys.stdin.read(1))
+		if token == "]":
 			if tape[p] != 0:
-				cp = stack.pop()
-				continue
-		if code[cp] == ".":
-			output += chr(tape[p])
-		if code[cp] == ",":
-			i = input("> ")
-			tape[p] = chr(i)
+				cp = m[cp]
 
-		cp += 1	
-	return output
+		cp += 1

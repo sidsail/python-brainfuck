@@ -1,4 +1,3 @@
-from distutils.dir_util import copy_tree
 import sys
 def interpret(code: str):
 	m = {}
@@ -12,7 +11,6 @@ def interpret(code: str):
 			m[i] = x
 	if len(arr) != 0:
 		raise Exception("mismatched braces")
-
 	tape = [0]
 	p = 0
 	cp = 0
@@ -51,5 +49,4 @@ def interpret(code: str):
 		if token == "]":
 			if tape[p] != 0:
 				cp = m[cp]
-
 		cp += 1

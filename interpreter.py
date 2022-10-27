@@ -1,3 +1,6 @@
+import time 
+
+
 def interpret(code: str):
 	tape = [0]
 	p = 0
@@ -14,12 +17,14 @@ def interpret(code: str):
 		if code[cp] == "+":
 			if tape[p] == 255:
 				tape[p] = 0
+				cp+=1
 				continue
 			tape[p] += 1
 
 		if code[cp] == "-":
 			if tape[p] == 0:
 				tape[p] = 255
+				cp += 1
 				continue
 			tape[p] -= 1
 
@@ -58,11 +63,9 @@ def interpret(code: str):
 				continue
 		if code[cp] == ".":
 			output += chr(tape[p])
-
 		if code[cp] == ",":
 			i = input("> ")
-			tape[p] = ord(i)
+			tape[p] = chr(i)
 
 		cp += 1	
-
 	return output

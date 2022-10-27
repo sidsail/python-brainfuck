@@ -10,10 +10,6 @@ def interpret(code: str):
 	output = ""
 	stack = []
 	while cp < lc:
-		if code[cp] == " ":
-			cp += 1
-			continue
-
 		if code[cp] == "+":
 			if tape[p] == 255:
 				tape[p] = 0
